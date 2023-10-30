@@ -12,6 +12,15 @@ public class App implements Runnable{
     @CommandLine.Option(names = { "-V", "--version" }, versionHelp = true, description = "Print version information and exit.")
     private boolean versionRequested;
 
+    @CommandLine.Parameters(index = "0", description = "path to first file")
+    private String filePath1;
+
+    @CommandLine.Parameters(index = "1", description = "path to second file")
+    private String filePath2;
+
+    @CommandLine.Option(names = { "-f", "--format"}, description = "Output format [default: stylish]")
+    private String format = "Stylish";
+
     public static void main(String[] args) {
         CommandLine cmd = new CommandLine(new App());
         cmd.execute(args);

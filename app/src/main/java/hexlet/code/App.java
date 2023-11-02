@@ -1,11 +1,11 @@
 package hexlet.code;
-import hexlet.code.Differ;
 import picocli.CommandLine;
 
 import java.io.File;
+import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff", description = "Compares two configuration files and shows a difference.")
-public class App implements Runnable{
+public class App implements Callable<String> {
     @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "Show this help message and exit.")
     private boolean helpRequested;
 
@@ -27,13 +27,8 @@ public class App implements Runnable{
     }
 
     @Override
-    public void run() {
-        if (helpRequested) {
-            CommandLine.usage(this, System.out);
-        } else if (versionRequested) {
-            System.out.println("Version 1.0");
-        } else {
-            System.out.println("Running the diff operation...");
-        }
+    public String call() throws Exception {
+        String result = Differ.generate(filePath1, filePath1);
+        return result;
     }
 }

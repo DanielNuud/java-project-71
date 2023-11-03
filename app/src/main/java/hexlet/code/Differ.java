@@ -12,12 +12,11 @@ public class Differ {
         List<String> keys = new ArrayList<>();
         keys.addAll(data1.keySet());
         keys.addAll(data2.keySet());
-
-        Set<String> sortedKeys = new TreeSet<>();
+        Collections.sort(keys);
 
         StringBuilder result = new StringBuilder("{\n");
 
-        for (String key : sortedKeys) {
+        for (String key : keys) {
             Object value1 = data1.get(key);
             Object value2 = data2.get(key);
 

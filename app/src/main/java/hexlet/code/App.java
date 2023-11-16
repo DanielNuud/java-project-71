@@ -1,15 +1,16 @@
 package hexlet.code;
 import picocli.CommandLine;
 
-import java.io.File;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff", description = "Compares two configuration files and shows a difference.")
 public class App implements Callable<String> {
-    @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "Show this help message and exit.")
+    @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true,
+            description = "Show this help message and exit.")
     private boolean helpRequested;
 
-    @CommandLine.Option(names = { "-V", "--version" }, versionHelp = true, description = "Print version information and exit.")
+    @CommandLine.Option(names = { "-V", "--version" }, versionHelp = true,
+            description = "Print version information and exit.")
     private boolean versionRequested;
 
     @CommandLine.Parameters(index = "0", description = "path to first file")

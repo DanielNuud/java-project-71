@@ -1,10 +1,18 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Differ {
     public static String generate(String filePath1, String filePath2) throws Exception {
@@ -50,6 +58,10 @@ public class Differ {
     public static Map<String, Object> readJSONFile(String filePath) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(filePath);
-        return objectMapper.readValue(file, Map.class);
+        String absolutePath = file.getAbsolutePath();
+        String fileContent = new String(Files.readAllBytes(Paths.get(absolutePath)));
+        return objectMapper.readValue(fileContent, new TypeReference<Map<String, Object>>() {
+        });
     }
+
 }

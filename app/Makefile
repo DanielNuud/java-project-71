@@ -9,4 +9,9 @@ reinstall:
 	gradle installDist
 run:
 	./build/install/app/bin/app -h
+lint:
+	./gradlew checkstyleMain
+test:
+	./gradlew test
+
 

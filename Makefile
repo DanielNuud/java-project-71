@@ -24,6 +24,6 @@ report:
 	$PWD/.gradlew jacocoTestReport
 
 build:
-	$PWD/gradlew clean build
+	cd app && ./gradlew clean build
 
 .PHONY: build

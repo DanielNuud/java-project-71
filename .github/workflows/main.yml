@@ -13,8 +13,8 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '20'
-          distribution: 'temurin'
+          java-version: '21'
+          distribution: 'oracle'
       - name: Build
         run: cd app && make build
       - name: Publish code coverage

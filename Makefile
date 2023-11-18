@@ -1,21 +1,29 @@
 run-dist:
-	./build/install/app/bin/app
-clean:
-	gradle clean
-install:
-	gradle installDist
-reinstall:
-	gradle clean
-	gradle installDist
-run:
-	./build/install/app/bin/app file1.json file2.json
-lint:
-	./gradlew checkstyleMain
-test:
-	./gradlew test
-report:
-	.gradlew jacocoTestReport
-build:
-	./gradlew clean build
-.PHONY: build
+	$PWD/build/install/app/bin/app
 
+clean:
+	$PWD/gradle clean
+
+install:
+	$PWD/gradle installDist
+
+reinstall:
+	$PWD/gradle clean
+	$PWD/gradle installDist
+
+run:
+	$PWD/build/install/app/bin/app file1.json file2.json
+
+lint:
+	$PWD/gradlew checkstyleMain
+
+test:
+	$PWD/gradlew test
+
+report:
+	$PWD/.gradlew jacocoTestReport
+
+build:
+	$PWD/gradlew clean build
+
+.PHONY: build

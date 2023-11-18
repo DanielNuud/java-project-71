@@ -13,7 +13,9 @@ lint:
 	./gradlew checkstyleMain
 test:
 	./gradlew test
+report:
+	.gradlew jacocoTestReport
 build:
-	./gradlew build
+	./gradlew clean build
 .PHONY: build
 

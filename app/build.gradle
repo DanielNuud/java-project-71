@@ -25,10 +25,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestRepost
+    finalizedBy jacocoTestReport
 }
 jacocoTestReport {
-    dependsOn test 
+    dependsOn test
 }
 jacoco {
     toolVersion = "0.8.9"

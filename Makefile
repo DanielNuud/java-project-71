@@ -1,16 +1,21 @@
-build:
-	make -C app build
-
 run-dist:
-	make -C app run-dist
-
-test:
-	make -C app test
-
-report:
-	make -C app report
-
+	/app./build/install/app/bin/app
+clean:
+	gradle clean
+install:
+	gradle installDist
+reinstall:
+	gradle clean
+	gradle installDist
+run:
+	/app./build/install/app/bin/app file1.json file2.json
 lint:
-	make -C app lint
-
+	/app./gradlew checkstyleMain
+test:
+	/app./gradlew test
+report:
+	/app.gradlew jacocoTestReport
+build:
+	/app./gradlew clean build
 .PHONY: build
+

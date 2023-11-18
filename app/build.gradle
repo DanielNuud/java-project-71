@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'checkstyle'
+    id 'jacoco'
 }
 
 group = 'hexlet.code'
@@ -24,5 +25,13 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestRepost
+}
+jacocoTestReport {
+    dependsOn test 
+}
+jacoco {
+    toolVersion = "0.8.9"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
 }
 

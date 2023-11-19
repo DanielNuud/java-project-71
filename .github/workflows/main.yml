@@ -18,11 +18,11 @@ jobs:
       - name: Build
         run: make -C app
       - name: Publish code coverage
+        run: cd app && make report
         uses: paambaati/codeclimate-action@v5.0.0
         env:
           CC_TEST_REPORTER_ID: "feffd934b2464f16c0ea57a6423263ba17ce01b6ce792d2323f700554f94eaf5"
           JACOCO_SOURCE_PATH: "${{github.workspace}}/app/src/main/java"
         with:
-          coverageCommand: cd app && make report
           debug: true
           coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco

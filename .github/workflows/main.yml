@@ -13,10 +13,10 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '21'
-          distribution: 'oracle'
+          java-version: '17'
+          distribution: 'temurin'
       - name: Build
-        run: cd app && make build
+        run: make -C app build
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
         env:

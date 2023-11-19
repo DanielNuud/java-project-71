@@ -23,4 +23,5 @@ class DifferTest {
                 + "}";
         assertEquals(expected, result);
     }
+
 }

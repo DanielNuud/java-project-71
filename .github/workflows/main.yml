@@ -16,7 +16,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build
-        run: make -C app build
+        run: make -C app
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
         env:

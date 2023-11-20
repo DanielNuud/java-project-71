@@ -2,14 +2,14 @@ run-dist:
 	./build/install/app/bin/app
 
 clean:
-	./gradle clean
+	./gradlew clean
 
 install:
-	./gradle installDist
+	./gradlew installDist
 
 reinstall:
-	./gradle clean
-	./gradle installDist
+	./gradlew clean
+	./gradlew installDist
 
 run:
 	./build/install/app/bin/app file1.json file2.json

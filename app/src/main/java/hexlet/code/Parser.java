@@ -10,31 +10,29 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Parser {
-    public static Map<String, Object> readFileBySpecialty(String filePath) throws Exception {
+    public static TreeMap<String, Object> readFileBySpeciality(String absoluteFilePath, String filePath) throws Exception {
         if (filePath.endsWith(".json")) {
-            return readJSONFile(filePath);
+            return readJSONFile(absoluteFilePath);
         } else if (filePath.endsWith(".yaml")) {
-            return readYAMLFile(filePath);
+            return readYAMLFile(absoluteFilePath);
+        } else {
+            throw new Exception("Use formats: .json / .yml / .yaml");
         }
-        return new HashMap<>();
     }
-    public static Map<String, Object> readJSONFile(String filePath) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(filePath);
-        String absolutePath = file.getAbsolutePath();
-        String fileContent = new String(Files.readAllBytes(Paths.get(absolutePath)));
-        return objectMapper.readValue(fileContent, new TypeReference<Map<String, Object>>() {
-        });
+    public static TreeMap<String, Object> readJSONFile(String filePath) throws IOException {
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final TreeMap<String, Object> value;
+        value = objectMapper.readValue(filePath, new TypeReference<>() {});
+        return value;
     }
 
-    public static Map<String, Object> readYAMLFile(String filePath) throws Exception {
-        ObjectMapper mapper = new YAMLMapper();
-        File file = new File(filePath);
-        String absolutePath = file.getAbsolutePath();
-        String fileContent = new String(Files.readAllBytes(Paths.get(absolutePath)));
-        return mapper.readValue(fileContent, new TypeReference<Map<String, Object>>() {
-        });
+    public static TreeMap<String, Object> readYAMLFile(String filePath) throws Exception {
+        final ObjectMapper objectMapper = new YAMLMapper();
+        final TreeMap<String, Object> value;
+        value = objectMapper.readValue(filePath, new TypeReference<>() {});
+        return value;
     }
 }

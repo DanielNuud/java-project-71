@@ -1,52 +1,39 @@
 package hexlet.code;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
-import static hexlet.code.Parser.readFileBySpecialty;
+import static hexlet.code.Parser.readFileBySpeciality;
 
 public class Differ {
-    public static String generate(String filePath1, String filePath2) throws Exception {
-        Map<String, Object> data1 = readFileBySpecialty(filePath1);
-        Map<String, Object> data2 = readFileBySpecialty(filePath2);
+    public static String generate(String filepath1, String filepath2) throws Exception {
+        final String defaultFormat = "stylish";
+        return generate(filepath1, filepath2, defaultFormat);
+    }
 
-        List<String> keys = new ArrayList<>();
-        keys.addAll(data1.keySet());
-        keys.addAll(data2.keySet());
-        Collections.sort(keys);
+    public static String generate(String filePath1, String filePath2, String format) throws Exception {
 
-        StringBuilder result = new StringBuilder("{\n");
+        final String firstFileAbsolutePath = checkIsFileExistThenToAbsolutePath(filePath1);
+        final String secondFileAbsolutePath = checkIsFileExistThenToAbsolutePath(filePath2);
 
-        Set<String> processedKeys = new HashSet<>();
+        final TreeMap<String, Object> value1 = readFileBySpeciality(firstFileAbsolutePath, filePath1);
+        final TreeMap<String, Object> value2 = readFileBySpeciality(secondFileAbsolutePath, filePath2);
 
-        for (String key : keys) {
-            if (!processedKeys.contains(key)) {
-                boolean containsKey1 = data1.containsKey(key);
-                boolean containsKey2 = data2.containsKey(key);
+        TreeSet<String> setKeys = new TreeSet<>(value1.keySet());
+        setKeys.addAll(value2.keySet());
 
-                if (containsKey1 && !containsKey2) {
-                    result.append("  - ").append(key).append(": ").append(data1.get(key)).append("\n");
-                    processedKeys.add(key);
-                } else if (!containsKey1 && containsKey2) {
-                    result.append("  + ").append(key).append(": ").append(data2.get(key)).append("\n");
-                    processedKeys.add(key);
-                } else if (containsKey1 && containsKey2) {
-                    if (!data1.get(key).equals(data2.get(key))) {
-                        result.append("  - ").append(key).append(": ").append(data1.get(key)).append("\n");
-                        result.append("  + ").append(key).append(": ").append(data2.get(key)).append("\n");
-                        processedKeys.add(key);
-                    } else {
-                        result.append("    ").append(key).append(": ").append(data1.get(key)).append("\n");
-                        processedKeys.add(key);
-                    }
-                }
-            }
+        return Formatter.makeFormat(value1, value2, format, setKeys);
+    }
+
+    private static String checkIsFileExistThenToAbsolutePath(String filePath) throws IOException {
+        Path absoluteFilePath = Paths.get(filePath).toAbsolutePath().normalize();
+
+        if (!Files.exists(absoluteFilePath)) {
+            throw new IOException("'" + absoluteFilePath + "' does not exist.\nCheck it!");
         }
-        result.append("}");
-        return result.toString();
+        return Files.readString(absoluteFilePath);
     }
 }

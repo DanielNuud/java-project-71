@@ -4,7 +4,7 @@ import picocli.CommandLine;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff", description = "Compares two configuration files and shows a difference.")
-public class App implements Callable<String> {
+public class App implements Callable<Integer> {
     @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true,
             description = "Show this help message and exit.")
     private boolean helpRequested;
@@ -19,8 +19,10 @@ public class App implements Callable<String> {
     @CommandLine.Parameters(index = "1", description = "path to second file")
     private String filePath2;
 
-    @CommandLine.Option(names = { "-f", "--format"}, description = "Output format [default: stylish]")
-    private String format = "Stylish";
+    @CommandLine.Option(names = { "-f", "--format"}, paramLabel = "format",
+            description = "Output format [default: stylish]",
+            defaultValue = "stylish")
+    private String format;
 
     public static void main(String[] args) {
         CommandLine cmd = new CommandLine(new App());
@@ -28,9 +30,8 @@ public class App implements Callable<String> {
     }
 
     @Override
-    public String call() throws Exception {
-        String result = Differ.generate(filePath1, filePath2);
-        System.out.println(result);
-        return result;
+    public Integer call() throws Exception {
+        Differ.generate(filePath1, filePath2, format);
+        return null;
     }
 }

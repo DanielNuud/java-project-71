@@ -4,4 +4,5 @@
 
 Step 5 - https://asciinema.org/a/cHTJdYxc6WWcrDwUBhtlmjjgJ
 Step 6 -
-Step 7 - [![asciicast](https://asciinema.org/a/QmEUctAXBdgdHFh3fqKAGEmX1.svg)](https://asciinema.org/a/QmEUctAXBdgdHFh3fqKAGEmX1) 
+Step 7 - [![asciicast](https://asciinema.org/a/QmEUctAXBdgdHFh3fqKAGEmX1.svg)](https://asciinema.org/a/QmEUctAXBdgdHFh3fqKAGEmX1)
+Step 8 - [![asciicast](https://asciinema.org/a/QVzkiTCWjMjaHiOeOmXexJmLV.svg)](https://asciinema.org/a/QVzkiTCWjMjaHiOeOmXexJmLV) 

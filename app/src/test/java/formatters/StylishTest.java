@@ -69,7 +69,6 @@ class StylishTest {
                 + "\n    setting3: true"
                 + "\n}";
 
-
         final String currentDirectory = System.getProperty("user.dir");
         final String filePath1 = currentDirectory + "/src/test/resources/stylishFileTest1.yml";
         final String filePath2 = currentDirectory + "/src/test/resources/stylishFileTest1.yml";

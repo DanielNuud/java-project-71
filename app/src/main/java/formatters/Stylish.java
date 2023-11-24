@@ -4,9 +4,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Stylish {
-    static StringBuilder result;
-    static String valueOne;
-    static String valueTwo;
+    private static StringBuilder result;
+    private static String valueOne;
+    private static String valueTwo;
 
     public static String format(TreeMap<String, Object> value1, TreeMap<String, Object> value2,
                                 TreeSet<String> setKeys) {

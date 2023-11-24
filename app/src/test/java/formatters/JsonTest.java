@@ -24,7 +24,6 @@ class JsonTest {
         assertEquals(trueJsonResult, Differ.generate(filePath1, filePath2, "json"));
     }
 
-
     @Test
     void formatTestForYMLFile() throws Exception {
         final String currentDirectory = System.getProperty("user.dir");
@@ -33,6 +32,5 @@ class JsonTest {
 
         assertEquals(trueJsonResult, Differ.generate(filePath1, filePath2, "json"));
     }
-
 
 }

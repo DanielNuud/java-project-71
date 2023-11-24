@@ -42,7 +42,6 @@ class StylishTest {
         assertEquals(trueStylishResult, Differ.generate(filePath1, filePath2, "stylish"));
     }
 
-
     @Test
     void formatTestForYMLFile() throws Exception {
         final String currentDirectory = System.getProperty("user.dir");
@@ -51,7 +50,6 @@ class StylishTest {
 
         assertEquals(trueStylishResult, Differ.generate(filePath1, filePath2, "stylish"));
     }
-
 
     @Test
     void formatTestForSimilarFiles() throws Exception {

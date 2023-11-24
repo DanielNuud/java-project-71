@@ -23,7 +23,8 @@ public class Plain {
 
             ifFilesHasKeys(value2.containsKey(key) && value1.containsKey(key), key);
             if (!value1.containsKey(key)) {
-                result.append("Property '").append(key).append("' was added with value: ").append(valueTwo).append("\n");
+                result.append("Property '").append(key).append("' was added with value: ")
+                        .append(valueTwo).append("\n");
             } else if (!value2.containsKey(key)) {
                 result.append("Property '").append(key).append("' was removed").append("\n");
             }

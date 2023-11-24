@@ -3,7 +3,7 @@ package formatters;
 import hexlet.code.Differ;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlainTest {
     private final String truePlainResult = """
@@ -40,4 +40,5 @@ class PlainTest {
 
         assertEquals(truePlainResult, Differ.generate(filePath1, filePath2, "plain"));
     }
+
 }

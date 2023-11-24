@@ -1,6 +1,7 @@
 package hexlet.code;
 
 import formatters.Json;
+import formatters.Plain;
 import formatters.Stylish;
 
 import java.util.TreeMap;
@@ -13,6 +14,7 @@ public class Formatter {
         return switch (format) {
             case "json" -> Json.format(value1, value2, setKeys);
             case "stylish" -> Stylish.format(value1, value2, setKeys);
+            case "plain" -> Plain.format(value1, value2, setKeys);
             default -> throw new Exception("Unknown output format!");
         };
     }

@@ -2,7 +2,9 @@ package hexlet.code;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
-
+/**
+ * Compares two configuration files and shows a difference.
+ */
 @CommandLine.Command(name = "gendiff", description = "Compares two configuration files and shows a difference.")
 public class App implements Callable<Integer> {
     @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true,
@@ -28,7 +30,12 @@ public class App implements Callable<Integer> {
         CommandLine cmd = new CommandLine(new App());
         cmd.execute(args);
     }
-
+    /**
+     * Executes the 'gendiff' command.
+     *
+     * @return the exit code
+     * @throws Exception if an error occurs during execution
+     */
     @Override
     public Integer call() throws Exception {
         Differ.generate(filePath1, filePath2, format);

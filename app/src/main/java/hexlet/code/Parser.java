@@ -12,7 +12,7 @@ public class Parser {
             throws Exception {
         if (filePath.endsWith(".json")) {
             return readJSONFile(absoluteFilePath);
-        } else if (filePath.endsWith(".yaml")) {
+        } else if (filePath.endsWith(".yaml") || filePath.endsWith(".yml")) {
             return readYAMLFile(absoluteFilePath);
         } else {
             throw new Exception("Use formats: .json / .yml / .yaml");

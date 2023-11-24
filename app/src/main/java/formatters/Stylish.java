@@ -5,8 +5,8 @@ import java.util.TreeSet;
 
 public class Stylish {
     static StringBuilder result;
-    static String valOne;
-    static String valTwo;
+    static String valueOne;
+    static String valueTwo;
 
     public static String format(TreeMap<String, Object> value1, TreeMap<String, Object> value2,
                                 TreeSet<String> setKeys) {
@@ -14,15 +14,15 @@ public class Stylish {
         result = new StringBuilder("{\n");
 
         for (final String key: setKeys) {
-            valOne = String.valueOf(value1.get(key));
-            valTwo = String.valueOf(value2.get(key));
+            valueOne = String.valueOf(value1.get(key));
+            valueTwo = String.valueOf(value2.get(key));
 
             ifFilesHasKeys(value2.containsKey(key) && value1.containsKey(key), key);
 
             if (!value1.containsKey(key)) {
-                result.append("  + ").append(key).append(": ").append(valTwo).append("\n");
+                result.append("  + ").append(key).append(": ").append(valueTwo).append("\n");
             } else if (!value2.containsKey(key)) {
-                result.append("  - ").append(key).append(": ").append(valOne).append("\n");
+                result.append("  - ").append(key).append(": ").append(valueOne).append("\n");
             }
         }
 
@@ -33,11 +33,11 @@ public class Stylish {
     private static void ifFilesHasKeys(boolean condition, String key) {
 
         if (condition) {
-            if (valOne.equals(valTwo)) {
-                result.append("    ").append(key).append(": ").append(valOne).append("\n");
+            if (valueOne.equals(valueTwo)) {
+                result.append("    ").append(key).append(": ").append(valueOne).append("\n");
             } else {
-                result.append("  - ").append(key).append(": ").append(valOne).append("\n");
-                result.append("  + ").append(key).append(": ").append(valTwo).append("\n");
+                result.append("  - ").append(key).append(": ").append(valueOne).append("\n");
+                result.append("  + ").append(key).append(": ").append(valueTwo).append("\n");
             }
         }
 

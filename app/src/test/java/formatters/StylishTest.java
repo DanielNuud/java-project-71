@@ -32,6 +32,7 @@ class StylishTest {
               - setting3: true
               + setting3: none
             }""";
+
     @Test
     void formatTestForJSONFile() throws Exception {
         final String currentDirectory = System.getProperty("user.dir");
@@ -41,6 +42,7 @@ class StylishTest {
         assertEquals(trueStylishResult, Differ.generate(filePath1, filePath2, "stylish"));
     }
 
+
     @Test
     void formatTestForYMLFile() throws Exception {
         final String currentDirectory = System.getProperty("user.dir");
@@ -49,6 +51,7 @@ class StylishTest {
 
         assertEquals(trueStylishResult, Differ.generate(filePath1, filePath2, "stylish"));
     }
+
 
     @Test
     void formatTestForSimilarFiles() throws Exception {
@@ -76,4 +79,5 @@ class StylishTest {
         final String actual = Differ.generate(filePath1, filePath2, "stylish");
         assertEquals(actual, expected);
     }
+
 }

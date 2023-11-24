@@ -14,6 +14,7 @@ class JsonTest {
             + "+ obj1\":\"{nestedKey=value, isNested=true}\",\"- setting1\":\"Some value\",\""
             + "+ setting1\":\"Another value\",\"- setting2\":\"200\",\"+ setting2\":\"300\",\"- setting3\":\"true\",\""
             + "+ setting3\":\"none\"}";
+
     @Test
     void formatTestForJSONFile() throws Exception {
         final String currentDirectory = System.getProperty("user.dir");
@@ -23,6 +24,7 @@ class JsonTest {
         assertEquals(trueJsonResult, Differ.generate(filePath1, filePath2, "json"));
     }
 
+
     @Test
     void formatTestForYMLFile() throws Exception {
         final String currentDirectory = System.getProperty("user.dir");
@@ -31,5 +33,6 @@ class JsonTest {
 
         assertEquals(trueJsonResult, Differ.generate(filePath1, filePath2, "json"));
     }
+
 
 }

@@ -18,7 +18,7 @@ jobs:
           java-version: '20'
           distribution: 'corretto'
       - name: Build
-        run: make build
+        run: make -C app build
 
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
@@ -27,5 +27,5 @@ jobs:
           JACOCO_SOURCE_PATH: app/src/main/java
         with:
           debug: true
-          coverageCommand: make report
-          coverageLocations: ${{github.workspace}}/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
+          coverageCommand: make -C app report
+          coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco

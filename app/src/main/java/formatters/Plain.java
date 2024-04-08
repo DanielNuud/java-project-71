@@ -1,60 +1,49 @@
 package formatters;
 
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class Plain {
-    private static StringBuilder result = new StringBuilder();
-    private static String compareValue1;
-    private static String compareValue2;
-    private static String valueOne;
-    private static String valueTwo;
+public final class Plain implements StyleFormatter {
+    private final String patternAdded = "Property '%s' was added with value: %s";
+    private final String patternRemoved = "Property '%s' was removed";
+    private final String patternChanged = "Property '%s' was updated. From %s to %s";
+    private final String patternUnchanged = "";
 
-    public static String format(TreeMap<String, Object> value1, TreeMap<String, Object> value2,
-                                TreeSet<String> setKeys) {
-
-        result = new StringBuilder();
-
-        for (final String key: setKeys) {
-            compareValue1 = String.valueOf(value1.get(key));
-            compareValue2 = String.valueOf(value2.get(key));
-            valueOne = handlingValuesByType(value1.get(key));
-            valueTwo = handlingValuesByType(value2.get(key));
-
-            ifFilesHasKeys(value2.containsKey(key) && value1.containsKey(key), key);
-            if (!value1.containsKey(key)) {
-                result.append("Property '").append(key).append("' was added with value: ")
-                        .append(valueTwo).append("\n");
-            } else if (!value2.containsKey(key)) {
-                result.append("Property '").append(key).append("' was removed").append("\n");
-            }
+    private String formatValue(Object value) {
+        if (value == null) {
+            return null;
         }
-
-        System.out.println(result.substring(0, result.length() - 1));
-        return result.substring(0, result.length() - 1);
-    }
-
-    private static String handlingValuesByType(Object object) {
-        String value = String.valueOf(object);
-
-        if (value.contains("[") || value.contains("{")) {
+        if (value instanceof Integer || value instanceof Boolean) {
+            return value.toString();
+        } else if (value instanceof String) {
+            return "'%s'".formatted(value);
+        } else {
             return "[complex value]";
-        } else if (object instanceof String) {
-            return "'" + value + "'";
         }
-
-        return value;
-
     }
 
-    private static void ifFilesHasKeys(boolean condition, String key) {
+    @Override
+    public String formatText(List<Map<String, Object>> list) {
+        return list.stream()
+                .map(line -> {
+                    Object status = line.get("status");
+                    Object field = line.get("field");
 
-        if (condition) {
-            if (!compareValue1.equals(compareValue2)) {
-                result.append("Property '").append(key).append("' was updated. From ").append(valueOne)
-                        .append(" to ").append(valueTwo).append("\n");
-            }
-        }
-
+                    if (status.equals("added")) {
+                        return patternAdded.formatted(field, formatValue(line.get("value2")));
+                    } else if (status.equals("removed")) {
+                        return patternRemoved.formatted(field);
+                    } else if (status.equals("changed")) {
+                        return patternChanged.formatted(field, formatValue(line.get("value1")),
+                                formatValue(line.get("value2")));
+                    } else if (status.equals("unchanged")) {
+                        return patternUnchanged;
+                    } else {
+                        throw new RuntimeException("Unknown status for diff");
+                    }
+                })
+                .filter(x -> !x.isEmpty())
+                .collect(Collectors.joining("\n"));
     }
 }

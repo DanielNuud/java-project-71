@@ -1,34 +1,26 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
-import java.util.TreeMap;
+import java.util.Map;
 
 public class Parser {
-    public static TreeMap<String, Object> readFileBySpeciality(String absoluteFilePath, String filePath)
-            throws Exception {
-        if (filePath.endsWith(".json")) {
-            return readJSONFile(absoluteFilePath);
-        } else if (filePath.endsWith(".yaml") || filePath.endsWith(".yml")) {
-            return readYAMLFile(absoluteFilePath);
-        } else {
-            throw new Exception("Use formats: .json / .yml / .yaml");
-        }
-    }
-    public static TreeMap<String, Object> readJSONFile(String filePath) throws IOException {
-        final ObjectMapper objectMapper = new ObjectMapper();
-        final TreeMap<String, Object> value;
-        value = objectMapper.readValue(filePath, new TypeReference<>() { });
-        return value;
-    }
+    public static Map<String, Object> parseContent(String content, String dataFormat) throws IOException {
+        ObjectMapper objectMapper;
 
-    public static TreeMap<String, Object> readYAMLFile(String filePath) throws Exception {
-        final ObjectMapper objectMapper = new YAMLMapper();
-        final TreeMap<String, Object> value;
-        value = objectMapper.readValue(filePath, new TypeReference<>() { });
-        return value;
+        if (dataFormat.equals("json")) {
+            objectMapper = new ObjectMapper(new JsonFactory());
+        } else if (dataFormat.matches("yml|yaml")) {
+            objectMapper = new ObjectMapper(new YAMLFactory());
+        } else {
+            throw new IOException("Unsupported dataFormat");
+        }
+
+        return objectMapper.readValue(content, new TypeReference<>() {
+        });
     }
 }

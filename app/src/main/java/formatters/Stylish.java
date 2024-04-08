@@ -1,45 +1,34 @@
 package formatters;
 
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class Stylish {
-    private static StringBuilder result;
-    private static String valueOne;
-    private static String valueTwo;
+public final class Stylish implements StyleFormatter {
+    private final String patternAdded = "  + %s: %s";
+    private final String patternRemoved = "  - %s: %s";
+    private final String patternChanged = "  - %s: %s\n  + %s: %s";
+    private final String patternUnchanged = "    %s: %s";
 
-    public static String format(TreeMap<String, Object> value1, TreeMap<String, Object> value2,
-                                TreeSet<String> setKeys) {
+    @Override
+    public String formatText(List<Map<String, Object>> list) {
+        return list.stream()
+                .map(line -> {
+                    Object status = line.get("status");
+                    Object field = line.get("field");
 
-        result = new StringBuilder("{\n");
-
-        for (final String key: setKeys) {
-            valueOne = String.valueOf(value1.get(key));
-            valueTwo = String.valueOf(value2.get(key));
-
-            ifFilesHasKeys(value2.containsKey(key) && value1.containsKey(key), key);
-
-            if (!value1.containsKey(key)) {
-                result.append("  + ").append(key).append(": ").append(valueTwo).append("\n");
-            } else if (!value2.containsKey(key)) {
-                result.append("  - ").append(key).append(": ").append(valueOne).append("\n");
-            }
-        }
-
-        System.out.println(result.toString() + "}");
-        return result.append("}").toString();
-    }
-
-    private static void ifFilesHasKeys(boolean condition, String key) {
-
-        if (condition) {
-            if (valueOne.equals(valueTwo)) {
-                result.append("    ").append(key).append(": ").append(valueOne).append("\n");
-            } else {
-                result.append("  - ").append(key).append(": ").append(valueOne).append("\n");
-                result.append("  + ").append(key).append(": ").append(valueTwo).append("\n");
-            }
-        }
-
+                    if (status.equals("added")) {
+                        return patternAdded.formatted(field, line.get("value2"));
+                    } else if (status.equals("removed")) {
+                        return patternRemoved.formatted(field, line.get("value1"));
+                    } else if (status.equals("changed")) {
+                        return patternChanged.formatted(field, line.get("value1"),
+                                field, line.get("value2"));
+                    } else if (status.equals("unchanged")) {
+                        return patternUnchanged.formatted(field, line.get("value"));
+                    } else {
+                        throw new RuntimeException("Unknown status for diff");
+                    }
+                }).collect(Collectors.joining("\n", "{\n", "\n}"));
     }
 }

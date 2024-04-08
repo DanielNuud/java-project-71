@@ -2,20 +2,21 @@ package hexlet.code;
 
 import formatters.Json;
 import formatters.Plain;
+import formatters.StyleFormatter;
 import formatters.Stylish;
 
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 public class Formatter {
-    public static String makeFormat(TreeMap<String, Object> value1, TreeMap<String, Object> value2,
-                                    String format, TreeSet<String> setKeys) throws Exception {
-
-        return switch (format) {
-            case "json" -> Json.format(value1, value2, setKeys);
-            case "stylish" -> Stylish.format(value1, value2, setKeys);
-            case "plain" -> Plain.format(value1, value2, setKeys);
-            default -> throw new Exception("Unknown output format!");
+    public static String formatText(List<Map<String, Object>> list, String format) throws IOException {
+        StyleFormatter formatterDriver = switch (format) {
+            case "stylish" -> new Stylish();
+            case "plain" -> new Plain();
+            case "json" -> new Json();
+            default -> throw new IOException("Unknown format for result set");
         };
+        return formatterDriver.formatText(list);
     }
 }

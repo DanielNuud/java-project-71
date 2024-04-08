@@ -1,41 +1,31 @@
 package hexlet.code;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.List;
+import java.util.Map;
 
-
-import static hexlet.code.Parser.readFileBySpeciality;
 
 public class Differ {
-    public static String generate(String filepath1, String filepath2) throws Exception {
-        final String defaultFormat = "stylish";
-        return generate(filepath1, filepath2, defaultFormat);
+
+    public static String generate(String pathToFirstFile, String pathToSecondFile, String format) throws IOException {
+        Map<String, Object> firstData = getData(pathToFirstFile);
+        Map<String, Object> secondData = getData(pathToSecondFile);
+
+        List<Map<String, Object>> list = Tree.build(firstData, secondData);
+        return Formatter.formatText(list, format);
     }
 
-    public static String generate(String filePath1, String filePath2, String format) throws Exception {
-
-        final String firstFileAbsolutePath = checkIsFileExistThenToAbsolutePath(filePath1);
-        final String secondFileAbsolutePath = checkIsFileExistThenToAbsolutePath(filePath2);
-
-        final TreeMap<String, Object> value1 = readFileBySpeciality(firstFileAbsolutePath, filePath1);
-        final TreeMap<String, Object> value2 = readFileBySpeciality(secondFileAbsolutePath, filePath2);
-
-        TreeSet<String> setKeys = new TreeSet<>(value1.keySet());
-        setKeys.addAll(value2.keySet());
-
-        return Formatter.makeFormat(value1, value2, format, setKeys);
+    public static String generate(String pathToFirstFile, String pathToSecondFile) throws IOException {
+        return generate(pathToFirstFile, pathToSecondFile, "stylish");
     }
 
-    private static String checkIsFileExistThenToAbsolutePath(String filePath) throws IOException {
-        Path absoluteFilePath = Paths.get(filePath).toAbsolutePath().normalize();
-
-        if (!Files.exists(absoluteFilePath)) {
-            throw new IOException("'" + absoluteFilePath + "' does not exist.\nCheck it!");
-        }
-        return Files.readString(absoluteFilePath);
+    private static Map<String, Object> getData(String filePath) throws IOException {
+        String content = Files.readString(Path.of(filePath));
+        String extension = FilenameUtils.getExtension(filePath);
+        return Parser.parseContent(content, extension);
     }
 }

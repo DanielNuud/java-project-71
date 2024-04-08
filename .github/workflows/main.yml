@@ -27,5 +27,5 @@ jobs:
           JACOCO_SOURCE_PATH: app/src/main/java
         with:
           debug: true
-          coverageCommand: make report
+          coverageCommand: make -С app report
           coverageLocations: ${{github.workspace}}/build/reports/jacoco/test/jacocoTestReport.xml:jacoco

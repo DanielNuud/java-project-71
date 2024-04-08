@@ -33,11 +33,16 @@ test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
+
 jacocoTestReport {
     dependsOn test
+    reports {
+        xml.required = true;
+    }
 }
+
 jacoco {
-    toolVersion = "0.8.9"
-    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+    toolVersion = "0.8.11"
+    reportsDirectory = layout.buildDirectory.dir('reports/jacoco')
 }
 

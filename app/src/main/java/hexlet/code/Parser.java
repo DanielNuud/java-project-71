@@ -9,18 +9,11 @@ import java.io.IOException;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, Object> parseContent(String content, String dataFormat) throws IOException {
-        ObjectMapper objectMapper;
-
-        if (dataFormat.equals("json")) {
-            objectMapper = new ObjectMapper(new JsonFactory());
-        } else if (dataFormat.matches("yml|yaml")) {
-            objectMapper = new ObjectMapper(new YAMLFactory());
-        } else {
-            throw new IOException("Unsupported dataFormat");
-        }
-
-        return objectMapper.readValue(content, new TypeReference<>() {
-        });
+    public static Map<Object, Object> parseContent(String content, String dataFormat) throws IOException {
+        return switch (dataFormat) {
+            case "json" -> new ObjectMapper(new JsonFactory()).readValue(content, new TypeReference<>() { });
+            case "yml", "yaml" -> new ObjectMapper(new YAMLFactory()).readValue(content, new TypeReference<>() { });
+            default -> throw new IOException("Unsupported dataFormat");
+        };
     }
 }

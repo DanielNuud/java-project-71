@@ -2,48 +2,36 @@ package formatters;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
-public final class Plain implements StyleFormatter {
-    private final String patternAdded = "Property '%s' was added with value: %s";
-    private final String patternRemoved = "Property '%s' was removed";
-    private final String patternChanged = "Property '%s' was updated. From %s to %s";
-    private final String patternUnchanged = "";
+public final class Plain {
 
-    private String formatValue(Object value) {
-        if (value == null) {
-            return null;
+    public static String formatText(List<Map<Object, Object>> list) {
+        StringBuilder result = new StringBuilder();
+        for (Map<Object, Object> element : list) {
+            if (element.get("type").equals("removed")) {
+                result.append(concatenateOutput(element, "' was removed", false, true));
+            } else if (element.get("type").equals("added")) {
+                result.append(concatenateOutput(element, "' was added with value: ", false, false));
+            } else if (!element.get("type").equals("unchanged")) {
+                result.append(concatenateOutput(element, "' was updated.", true, false));
+            }
         }
-        if (value instanceof Integer || value instanceof Boolean) {
-            return value.toString();
-        } else if (value instanceof String) {
-            return "'%s'".formatted(value);
-        } else {
-            return "[complex value]";
-        }
+        return result.deleteCharAt(result.length() - 1).toString();
     }
 
-    @Override
-    public String formatText(List<Map<String, Object>> list) {
-        return list.stream()
-                .map(line -> {
-                    Object status = line.get("status");
-                    Object field = line.get("field");
+    public static String concatenateOutput(Map<Object, Object> map, String str, boolean isnew, boolean removed) {
+        return "Property '" + map.get("key") + str
+                + (isnew ? " From " + formatValue(map.get("value1")) + " to " + formatValue(map.get("value2"))
+                : (removed ? "" : formatValue(map.get("value2")))) + "\n";
+    }
 
-                    if (status.equals("added")) {
-                        return patternAdded.formatted(field, formatValue(line.get("value2")));
-                    } else if (status.equals("removed")) {
-                        return patternRemoved.formatted(field);
-                    } else if (status.equals("changed")) {
-                        return patternChanged.formatted(field, formatValue(line.get("value1")),
-                                formatValue(line.get("value2")));
-                    } else if (status.equals("unchanged")) {
-                        return patternUnchanged;
-                    } else {
-                        throw new RuntimeException("Unknown status for diff");
-                    }
-                })
-                .filter(x -> !x.isEmpty())
-                .collect(Collectors.joining("\n"));
+    public static boolean isComplex(Object o) {
+        return Objects.nonNull(o) && (o instanceof List<?> || o instanceof Map<?, ?>);
+    }
+
+    public static String formatValue(Object object) {
+        return isComplex(object) ? "[complex value]"
+                : (object instanceof String ? "'" + object + "'" : String.valueOf(object));
     }
 }

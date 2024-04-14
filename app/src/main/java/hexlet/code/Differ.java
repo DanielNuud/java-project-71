@@ -1,7 +1,5 @@
 package hexlet.code;
 
-import org.apache.commons.io.FilenameUtils;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,10 +10,10 @@ import java.util.Map;
 public class Differ {
 
     public static String generate(String pathToFirstFile, String pathToSecondFile, String format) throws IOException {
-        Map<String, Object> firstData = getData(pathToFirstFile);
-        Map<String, Object> secondData = getData(pathToSecondFile);
+        Map<Object, Object> firstData = Parser.parseContent(readFile(pathToFirstFile), getFormat(pathToFirstFile));
+        Map<Object, Object> secondData = Parser.parseContent(readFile(pathToSecondFile), getFormat(pathToSecondFile));
 
-        List<Map<String, Object>> list = Tree.build(firstData, secondData);
+        List<Map<Object, Object>> list = Tree.build(firstData, secondData);
         return Formatter.formatText(list, format);
     }
 
@@ -23,9 +21,11 @@ public class Differ {
         return generate(pathToFirstFile, pathToSecondFile, "stylish");
     }
 
-    private static Map<String, Object> getData(String filePath) throws IOException {
-        String content = Files.readString(Path.of(filePath));
-        String extension = FilenameUtils.getExtension(filePath);
-        return Parser.parseContent(content, extension);
+    public static String readFile(String path) throws IOException {
+        return Files.readString(Path.of(path).toAbsolutePath().normalize());
+    }
+
+    public static String getFormat(String path) {
+        return path.substring(path.lastIndexOf(".") + 1);
     }
 }

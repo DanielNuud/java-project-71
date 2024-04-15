@@ -15,55 +15,58 @@ class DifferTest {
     private final String ymlPath1 = getPathToFile("file1.yaml");
     private final String ymlPath2 = getPathToFile("file2.yaml");
 
+
+    //пробовал помещать переменные expected в отдельные файлы, но, в таком случае, тесты не проходят, хотя ожидание
+    // и результат идентичны
     @Test
     public void testJson() throws IOException {
-        String expected = "[ {\n" +
-                "  \"key\" : \"config\",\n" +
-                "  \"type\" : \"added\",\n" +
-                "  \"value1\" : \"\",\n" +
-                "  \"value2\" : \"latest\"\n" +
-                "}, {\n" +
-                "  \"key\" : \"enable\",\n" +
-                "  \"type\" : \"changed\",\n" +
-                "  \"value1\" : true,\n" +
-                "  \"value2\" : false\n" +
-                "}, {\n" +
-                "  \"key\" : \"good\",\n" +
-                "  \"type\" : \"changed\",\n" +
-                "  \"value1\" : null,\n" +
-                "  \"value2\" : 13\n" +
-                "}, {\n" +
-                "  \"key\" : \"host\",\n" +
-                "  \"type\" : \"unchanged\",\n" +
-                "  \"value1\" : \"hexlet.io\",\n" +
-                "  \"value2\" : \"hexlet.io\"\n" +
-                "}, {\n" +
-                "  \"key\" : \"ip\",\n" +
-                "  \"type\" : \"changed\",\n" +
-                "  \"value1\" : [ \"192.1.1.1\", \"192.0.0.1\", \"168.168.1.1\" ],\n" +
-                "  \"value2\" : [ \"192.1.1.3\", \"192.0.0.1\", \"168.168.1.1\" ]\n" +
-                "}, {\n" +
-                "  \"key\" : \"object\",\n" +
-                "  \"type\" : \"changed\",\n" +
-                "  \"value1\" : {\n" +
-                "    \"key1\" : \"one\",\n" +
-                "    \"key2\" : \"two\"\n" +
-                "  },\n" +
-                "  \"value2\" : {\n" +
-                "    \"key1\" : \"two\",\n" +
-                "    \"key2\" : \"one\"\n" +
-                "  }\n" +
-                "}, {\n" +
-                "  \"key\" : \"port\",\n" +
-                "  \"type\" : \"changed\",\n" +
-                "  \"value1\" : 1,\n" +
-                "  \"value2\" : 10\n" +
-                "}, {\n" +
-                "  \"key\" : \"wait\",\n" +
-                "  \"type\" : \"removed\",\n" +
-                "  \"value1\" : 4,\n" +
-                "  \"value2\" : \"\"\n" +
-                "} ]";
+        String expected = "[ {\n"
+                + "  \"key\" : \"config\",\n"
+                + "  \"type\" : \"added\",\n"
+                + "  \"value1\" : \"\",\n"
+                + "  \"value2\" : \"latest\"\n"
+                + "}, {\n"
+                + "  \"key\" : \"enable\",\n"
+                + "  \"type\" : \"changed\",\n"
+                + "  \"value1\" : true,\n"
+                + "  \"value2\" : false\n"
+                + "}, {\n"
+                + "  \"key\" : \"good\",\n"
+                + "  \"type\" : \"changed\",\n"
+                + "  \"value1\" : null,\n"
+                + "  \"value2\" : 13\n"
+                + "}, {\n"
+                + "  \"key\" : \"host\",\n"
+                + "  \"type\" : \"unchanged\",\n"
+                + "  \"value1\" : \"hexlet.io\",\n"
+                + "  \"value2\" : \"hexlet.io\"\n"
+                + "}, {\n"
+                + "  \"key\" : \"ip\",\n"
+                + "  \"type\" : \"changed\",\n"
+                + "  \"value1\" : [ \"192.1.1.1\", \"192.0.0.1\", \"168.168.1.1\" ],\n"
+                + "  \"value2\" : [ \"192.1.1.3\", \"192.0.0.1\", \"168.168.1.1\" ]\n"
+                + "}, {\n"
+                + "  \"key\" : \"object\",\n"
+                + "  \"type\" : \"changed\",\n"
+                + "  \"value1\" : {\n"
+                + "    \"key1\" : \"one\",\n"
+                + "    \"key2\" : \"two\"\n"
+                + "  },\n"
+                + "  \"value2\" : {\n"
+                + "    \"key1\" : \"two\",\n"
+                + "    \"key2\" : \"one\"\n"
+                + "  }\n"
+                + "}, {\n"
+                + "  \"key\" : \"port\",\n"
+                + "  \"type\" : \"changed\",\n"
+                + "  \"value1\" : 1,\n"
+                + "  \"value2\" : 10\n"
+                + "}, {\n"
+                + "  \"key\" : \"wait\",\n"
+                + "  \"type\" : \"removed\",\n"
+                + "  \"value1\" : 4,\n"
+                + "  \"value2\" : \"\"\n"
+                + "} ]";
 
         assertThat(Differ.generate(jsonPath1, jsonPath2, "json")).isEqualTo(expected);
         assertThat(Differ.generate(ymlPath1, ymlPath2, "json")).isEqualTo(expected);

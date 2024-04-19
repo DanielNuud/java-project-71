@@ -15,9 +15,9 @@ public class Tree {
         List<Map<Object, Object>> result = new ArrayList<>();
         keys.forEach(key -> {
             if (!secondData.containsKey(key)) {
-                result.add(makeNewMap(key, "removed", firstData.get(key), ""));
+                result.add(makeNewMap(key, "removed", firstData.get(key), null));
             } else if (!firstData.containsKey(key)) {
-                result.add(makeNewMap(key, "added", "", secondData.get(key)));
+                result.add(makeNewMap(key, "added", null, secondData.get(key)));
             } else {
                 Object value1 = firstData.get(key);
                 Object value2 = secondData.get(key);

@@ -1,7 +1,7 @@
 [ {
   "key" : "config",
   "type" : "added",
-  "value1" : "",
+  "value1" : null,
   "value2" : "latest"
 }, {
   "key" : "enable",
@@ -43,5 +43,5 @@
   "key" : "wait",
   "type" : "removed",
   "value1" : 4,
-  "value2" : ""
+  "value2" : null
 } ]

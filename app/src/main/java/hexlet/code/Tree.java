@@ -18,14 +18,23 @@ public class Tree {
                 result.add(makeNewMap(key, "removed", firstData.get(key), ""));
             } else if (!firstData.containsKey(key)) {
                 result.add(makeNewMap(key, "added", "", secondData.get(key)));
-            } else if (String.valueOf(firstData.get(key)).equals(String.valueOf(secondData.get(key)))) {
-                result.add(makeNewMap(key, "unchanged", firstData.get(key), secondData.get(key)));
             } else {
-                result.add(makeNewMap(key, "changed", firstData.get(key), secondData.get(key)));
+                Object value1 = firstData.get(key);
+                Object value2 = secondData.get(key);
+                String type = compareValues(value1, value2) ? "unchanged" : "changed";
+                result.add(makeNewMap(key, type, value1, value2));
             }
         });
         return result;
     }
+
+    private static boolean compareValues(Object value1, Object value2) {
+        if (value1 == null && value2 == null) {
+            return true;
+        }
+        return value1 != null && value2 != null && value1.equals(value2);
+    }
+
     public static Map<Object, Object> makeNewMap(Object key, String type, Object value1, Object value2) {
         Map<Object, Object> newmap = new TreeMap<>();
         newmap.put("key", key);
